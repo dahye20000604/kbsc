@@ -1,15 +1,7 @@
-from django.db import models
-from django.conf import settings
-from pytz import timezone
-from jsonfield import JSONField
-from django.contrib.auth.models import User
+from django import forms
+from django.core.exceptions import ValidationError
 
-class Member(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE,null=True)
-    nickname = models.CharField(max_length = 5)
-
-class LithiumBattery(models.Model):
-    #user=models.ForeignKey(User, on_delete=models.CASCADE)
+class LithiumBattery(forms.form):
     name=models.CharField(max_length=10)
     kind=models.CharField(max_length=20)
     battery_capacity=models.DecimalField(default=0, decimal_places=2, max_digits=20)
@@ -19,14 +11,15 @@ class LithiumBattery(models.Model):
     charger_current=models.DecimalField(default=0, decimal_places=2, max_digits=20)
     purchase_period=models.DateField(editable=True, auto_now_add=True)
 
-    charging_start_time=models.DateTimeField(auto_now_add=True)
+    charging_start_time=models.DateTimeField(editable=True, auto_now_add=True)
 
     loss=models.DecimalField(default=1.2, decimal_places=2, max_digits=20)
     min_voltage=models.DecimalField(default=3.7, decimal_places=2, max_digits=20)
     max_voltage=models.DecimalField(default=4.2, decimal_places=2, max_digits=20)
 
-    @property
-    def created_at_korean_time(self):
-        korean_timezone=timezone(setting.TIME_ZONE)
-        return self.created_at.astimezone(korean_timezone)
-
+    def add(self):
+        data=self.cleaned_data
+        
+        if charger_current<rated_input_current:
+            raise ValidationError(_('화재발생의 위험이 있습니다'))
+        

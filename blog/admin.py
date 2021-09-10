@@ -1,3 +1,9 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import LithiumBattery, Member
+
+class LithiumBatteryAdmin(admin.ModelAdmin):
+    readonly_fields = ('purchase_period',)
+
+admin.site.register(LithiumBattery, LithiumBatteryAdmin)
+admin.site.register(Member)

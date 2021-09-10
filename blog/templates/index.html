@@ -21,7 +21,7 @@
 					<h1><a href="">Safety of Battery</a> by Team Name</h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="index.html">Home</a></li>
+							<li><a href="">Home</a></li>
 							<li>
 								<a href="#" class="icon solid fa-angle-down">Layouts</a>
 								<ul>
@@ -52,21 +52,23 @@
 					<br>
 					<br>
 					<section id="cta">
-						<form>
+						<form action="{% url 'index' %}" method="POST">
+							{% csrf_token %}
 							<div class="row gtr-50 gtr-uniform">
 								<div class="col-8 col-12-mobilep">
-									<input type="text" name="userid" id="userid" placeholder="userid" />
+									<input type="text" name="id" id="userid" placeholder="userid" />
 								</div>
 								<div class="col-8 col-12-mobilep">
-									<input type="password" name="pwd" id="pwd" placeholder="Password" />
+									<input type="password" name="password" id="pwd" placeholder="Password" />
 								</div>
 								<div class="col-4 col-12-mobilep">
-									<input type="submit" value="로그인" />
+									<input type="submit" class="button" value="로그인" />
 								</div>
 							</div>
 						</form>
-						<button type="button" onclick="location.href='signup'">회원가입</button>
-	
+						{{error}}
+						<br><br><br>
+						<a href="/signup" class="button2">회원가입</a>
 					</section>
 					
 				</section>
