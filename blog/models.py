@@ -9,9 +9,11 @@ class Member(models.Model):
     nickname = models.CharField(max_length = 5)
 
 class LithiumBattery(models.Model):
-    #user=models.ForeignKey(User, on_delete=models.CASCADE)
+    member=models.ForeignKey(Member, on_delete=models.CASCADE)
     name=models.CharField(max_length=10)
-    kind=models.CharField(max_length=20)
+    category=models.CharField(max_length=20)
+    battery_voltage=models.DecimalField(default=0, decimal_places=2, max_digits=20)
+    battery_current=models.DecimalField(default=0, decimal_places=2, max_digits=20)
     battery_capacity=models.DecimalField(default=0, decimal_places=2, max_digits=20)
     rated_input_voltage=models.DecimalField(default=0, decimal_places=2, max_digits=20)
     rated_input_current=models.DecimalField(default=0, decimal_places=2, max_digits=20)
@@ -20,6 +22,7 @@ class LithiumBattery(models.Model):
     purchase_period=models.DateField(editable=True, auto_now_add=True)
 
     charging_start_time=models.DateTimeField(auto_now_add=True)
+    status=models.CharField(max_length=20)
 
     loss=models.DecimalField(default=1.2, decimal_places=2, max_digits=20)
     min_voltage=models.DecimalField(default=3.7, decimal_places=2, max_digits=20)
@@ -29,4 +32,7 @@ class LithiumBattery(models.Model):
     def created_at_korean_time(self):
         korean_timezone=timezone(setting.TIME_ZONE)
         return self.created_at.astimezone(korean_timezone)
+
+    def __str__(self):
+        return 
 
