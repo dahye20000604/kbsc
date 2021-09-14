@@ -51,7 +51,7 @@
                </header>
                <div class="box">
                   <form method="post" action="{% url 'signup' %}">
-					{% csrf_token %}
+					      {% csrf_token %}
                      <div class="row gtr-50 gtr-uniform">
                         <div class="col-3 col-12-mobilep">
                            <h2>닉네임</h2>
@@ -59,7 +59,8 @@
                         <div class="col-9 col-12-mobilep">
                            <input type="text" name="nickname" id="name" value="" placeholder="닉네임" />
                         </div>
-                                <div class="col-3 col-12-mobilep">
+                        <br>{{error}}<br>
+                        <div class="col-3 col-12-mobilep">
                            <h2>ID</h2>
                         </div>
                         <div class="col-9 col-12-mobilep">

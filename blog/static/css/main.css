@@ -3237,6 +3237,8 @@
 	#main {
 		padding: 4em 0;
 	}
+	   /*이미지 추가하기*/
+		
 
 		#main > header {
 			text-align: center;
@@ -3256,6 +3258,12 @@
 				margin: 1em 0 0 0;
 				padding: 1em 0 1.25em 0;
 			}
+			/* #main .add {
+				border:dashed 4px #bdbdbd;
+				-moz-border-radius: 16px;
+				-webkit-border-radius: 16px;
+				border-radius: 16px;
+			} */
 
 	body.landing #main {
 		margin-top: -14em;

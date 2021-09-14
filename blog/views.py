@@ -10,27 +10,30 @@ def index(request):
         user = auth.authenticate(request, username=username, password=password)
         if user is not None:
             auth.login(request, user)
-            return render(request, 'device.html', {"member":Member.objects.get(user=user)})
+            member=Member.objects.get(user=user)
+            try:
+                device=LithiumBattery.objects.get(member=member)
+                return redirect('/device',{'member':member, 'device':device})
+            except:
+                return redirect('/device',{'member':member, 'count':0})
         else:
             return render(request, 'index.html', {'error': 'username or password is incorrect.'})
-    else:
-        return render(request, 'index.html')
     return render(request, 'index.html')
 
 def signup(request):
     if request.method=='POST':
         try:
             user=User.objects.get(username=request.POST['id'])
-            return render(request, 'index.html', {'error':'User has already been taken'})
+            return render(request, 'signup.html', {'error':'User has already been taken'})
         except User.DoesNotExist:
             user=User.objects.create_user(
                 request.POST['id'], password=request.POST['password'])
             Member.objects.create(user=user, nickname=request.POST['nickname'])
             auth.login(request, user)
-            return render('device.html', {"member":Member.objects.get(user=user)})
+            return redirect('/device', {"member":Member.objects.get(user=user), 'count':0})
     return render(request, 'signup.html')
 
-def device_add(request, id):
+def device_add(request):
     if request.method=='POST':
         user = get_object_or_404(User, userid=id)
         try:
@@ -55,5 +58,11 @@ def device_add(request, id):
             return render(request, 'device.html', {"id":id})
     return render(request, 'device_add.html')
 
-def device(request, id):
-    return render(request, 'device.html')
+def device(request):
+    user=request.user
+    member=Member.objects.get(user=user)
+    try:
+        device=LithiumBattery.objects.get(member=member)
+        return render(request, 'device.html', {'member':member, 'device':device, 'count':len(device)})
+    except:
+        return render(request, 'device.html', {'member':member, 'count':0})
