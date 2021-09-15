@@ -30,10 +30,15 @@ class LithiumBattery(models.Model):
     min_voltage=models.DecimalField(default=3.7, decimal_places=2, max_digits=20)
     max_voltage=models.DecimalField(default=4.2, decimal_places=2, max_digits=20)
 
+    start_battery = models.DecimalField(default = 30, decimal_places=3, max_digits=20)
+    want_battery = models.DecimalField(default = 30, decimal_places=3, max_digits=20)
+    time_prediction = models.DecimalField(default = 30, decimal_places=3, max_digits=20)
+
     @property
     def created_at_korean_time(self):
         korean_timezone=timezone(setting.TIME_ZONE)
         return self.created_at.astimezone(korean_timezone)
+    
 
 def prediction_chargingtime(LithiumBattery):
     predict_basis = LithiumBattery.loss * LithiumBattery.battery_capacity / charger_voltage / charger_current

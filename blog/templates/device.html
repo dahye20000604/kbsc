@@ -5,6 +5,11 @@
 	html5up.net | @ajlkn
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
+<style>
+	.device{text-align:center; display:table; border:dashed 3px #cecece; vertical-align:middle;}  
+    .device:after{display:inline-block; height:100%; content:""; vertical-align:middle;}
+    .device img{vertical-align:middle;}
+</style>
 <html>
 	<head>
 		<title>Device - Safety of Battery</title>
@@ -17,7 +22,7 @@
 
 			<!-- Header -->
 				<header id="header">
-					<h1><a href="index.html">Safety of Battery</a> by Team Name</h1>
+					<h1><a href="{% url 'index' %}">Safety of Battery</a> by Team Name</h1>
 					<nav id="nav">
 						<ul>
 							<li><a href="index.html">Home</a></li>
@@ -49,11 +54,39 @@
 						<h2>{{member.nickname}}님의 기기</h2>
 						<p>총 {{count}}개의 기기를 가지고 있습니다.</p>
 					</header>
-					<div class="box">
-						<span class="image featured"><img src="images/pic01.jpg" alt="" /></span>
-						<a href="{% url 'device_add' %}">
-						<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDQ0OCA0NDgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTQwOCAxODRoLTEzNmMtNC40MTc5NjkgMC04LTMuNTgyMDMxLTgtOHYtMTM2YzAtMjIuMDg5ODQ0LTE3LjkxMDE1Ni00MC00MC00MHMtNDAgMTcuOTEwMTU2LTQwIDQwdjEzNmMwIDQuNDE3OTY5LTMuNTgyMDMxIDgtOCA4aC0xMzZjLTIyLjA4OTg0NCAwLTQwIDE3LjkxMDE1Ni00MCA0MHMxNy45MTAxNTYgNDAgNDAgNDBoMTM2YzQuNDE3OTY5IDAgOCAzLjU4MjAzMSA4IDh2MTM2YzAgMjIuMDg5ODQ0IDE3LjkxMDE1NiA0MCA0MCA0MHM0MC0xNy45MTAxNTYgNDAtNDB2LTEzNmMwLTQuNDE3OTY5IDMuNTgyMDMxLTggOC04aDEzNmMyMi4wODk4NDQgMCA0MC0xNy45MTAxNTYgNDAtNDBzLTE3LjkxMDE1Ni00MC00MC00MHptMCAwIiBmaWxsPSIjZGNkY2RjIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg=="
-						 width=50% heigh=auto padding="5px"/></a>
+					<div class="box row gtr-50 gtr-uniform">
+						<span class="image featured"><img src="../images/pic01.jpg" alt="" /></span>
+						{% if device %}
+							{% for i in device %}
+								{% if "None" in i.status %}
+								<div class="col-6 device" style="padding-bottom:10%; background-color: gray;">
+									<a href="{% url 'device_start' i.name %}">
+									<img src="/static/images/{{i.category}}.png" sytle="vertical-align:middle;"/>
+									</a>
+									<h1>{{i.name}}</h1>
+								</div>
+								{% elif "Charging" in i.status %}
+								<div class="col-6 device" style="padding-bottom:10%;  background-color: orange;">
+									<a href="{% url 'device_stop' i.name %}">
+									<img src="/static/images/{{i.category}}.png" sytle="vertical-align:middle;"/>
+									</a>
+									<h1>{{i.name}}</h1>
+								</div>
+								{% elif "Complete" in i.status %}
+								<div class="col-6 device" style="padding-bottom:10%;  background-color: rgb(130, 207, 13);">
+									<a href="{% url 'device_stop' i.name %}">
+									<img src="/static/images/{{i.category}}.png" sytle="vertical-align:middle;"/>
+									</a>
+									<h1>{{i.name}}</h1>
+								</div>
+								{% endif %}
+							{%endfor%}
+						{% endif %}
+						<div style="text-align:center; width:50%; height:50%; display:table; border:dashed 3px #cecece;">
+							<a href="{% url 'device_add' %}">
+							<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDQ0OCA0NDgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTQwOCAxODRoLTEzNmMtNC40MTc5NjkgMC04LTMuNTgyMDMxLTgtOHYtMTM2YzAtMjIuMDg5ODQ0LTE3LjkxMDE1Ni00MC00MC00MHMtNDAgMTcuOTEwMTU2LTQwIDQwdjEzNmMwIDQuNDE3OTY5LTMuNTgyMDMxIDgtOCA4aC0xMzZjLTIyLjA4OTg0NCAwLTQwIDE3LjkxMDE1Ni00MCA0MHMxNy45MTAxNTYgNDAgNDAgNDBoMTM2YzQuNDE3OTY5IDAgOCAzLjU4MjAzMSA4IDh2MTM2YzAgMjIuMDg5ODQ0IDE3LjkxMDE1NiA0MCA0MCA0MHM0MC0xNy45MTAxNTYgNDAtNDB2LTEzNmMwLTQuNDE3OTY5IDMuNTgyMDMxLTggOC04aDEzNmMyMi4wODk4NDQgMCA0MC0xNy45MTAxNTYgNDAtNDBzLTE3LjkxMDE1Ni00MC00MC00MHptMCAwIiBmaWxsPSIjZGNkY2RjIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg=="
+							style="width:50%; height:50%; margin:auto;"/></a>
+						</div>
 						<!--
 						<div class="col-9 col-12-mobilep">
 						<button class="actions special" type="button" href="{% url 'device_add' %}">

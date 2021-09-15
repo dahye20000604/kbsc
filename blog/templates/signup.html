@@ -20,7 +20,7 @@
                 <h1><a href="">Safety of Battery</a> by Team Name</h1>
                 <nav id="nav">
                     <ul>
-                        <li><a href="index.html">Home</a></li>
+                        <li><a href="{% url 'index' %}">Home</a></li>
                         <li>
                             <a href="#" class="icon solid fa-angle-down">Layouts</a>
                             <ul>
@@ -75,13 +75,14 @@
                                 <div class="col-4 col-12-mobilep">
                            <h2>Password_Check</h2>
                         </div>
-                        <div class="col-8 col-12-mobilep">
+                        <div class="col-6 col-12-mobilep">
                            <input type="password" name="passwordcheck" id="email" value="" placeholder="Password를 한 번 더 입력하세요" />
                         </div>
                         <div class="col-12">
-                                    <ul class="actions special">
-                               <input type="submit" value="회원가입">
-                                    </ul>
+                              <ul class="actions special">
+                                 <li><input type="submit" name='signup' value="Signup"></li>
+                                 <li><input type="submit" name='back' value="Back"></li>
+                              </ul>
                         </div>
                      </div>
                   </form>

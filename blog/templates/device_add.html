@@ -17,7 +17,7 @@
 
 			<!-- Header -->
 				<header id="header">
-					<h1><a href="index.html">Alpha</a> by HTML5 UP</h1>
+					<h1><a href="{% url 'index' %}">Alpha</a> by HTML5 UP</h1>
 					<nav id="nav">
 						<ul>
 							<li><a href="index.html">Home</a></li>
@@ -90,12 +90,13 @@
 								<p>경고문 : {{error}} </p><br>
 								{%endif%}
                                 <div class="col-12">
-                                구입년도 : <input type="date" name="purchase_period" id="subject" value=""/>
+                                <b>구입년도 </b><br>
+								<input type="date" name="purchase_period" id="subject" value=""/>
                                 </div>
 								<div class="col-12">
 									<ul class="actions special">
-										<li><input type="submit" value="Done" /></li>
-                                        <li><button type="button special" onclick="location.href='/'">Back</button></li>
+										<li><input type="submit" name="done" value="Done" /></li>
+                                        <li><input type="submit" name="back" value="Back" /></li>
 									</ul>
 								</div>
 							</div>
@@ -126,7 +127,7 @@
 			<script src="static/js/jquery.scrollex.min.js"></script>
 			<script src="static/js/browser.min.js"></script>
 			<script src="static/js/breakpoints.min.js"></script>
-			<script src="assets/js/util.js"></script>
+			<script src="static/js/util.js"></script>
 			<script src="static/js/main.js"></script>
 
 	</body>
