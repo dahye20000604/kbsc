@@ -1,4 +1,5 @@
 {% load static %}
+{% load util %}
 <!DOCTYPE HTML>
 <!--
 	Alpha by HTML5 UP
@@ -6,9 +7,9 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <style>
-	.device{text-align:center; display:table; border:dashed 3px #cecece; vertical-align:middle;}  
-    .device:after{display:inline-block; height:100%; content:""; vertical-align:middle;}
-    .device img{vertical-align:middle;}
+	.device{text-align:center; display:table; vertical-align:middle; height:360px;}  
+	.device:after{display:table; height:100%; content:""; vertical-align:middle;}
+	.device-inner{display:table-cell; margin:auto; vertical-align: middle;}
 </style>
 <html>
 	<head>
@@ -54,38 +55,57 @@
 						<h2>{{member.nickname}}님의 기기</h2>
 						<p>총 {{count}}개의 기기를 가지고 있습니다.</p>
 					</header>
+
 					<div class="box row gtr-50 gtr-uniform">
 						<span class="image featured"><img src="../images/pic01.jpg" alt="" /></span>
 						{% if device %}
 							{% for i in device %}
 								{% if "None" in i.status %}
-								<div class="col-6 device" style="padding-bottom:10%; background-color: gray;">
+								<div class="col-6 device" style="border-radius: 25px; background-color: rgb(168, 168, 168); border:3px solid gray;">
+									<div class="device-inner" style="margin:auto;">
 									<a href="{% url 'device_start' i.name %}">
-									<img src="/static/images/{{i.category}}.png" sytle="vertical-align:middle;"/>
+									<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
 									</a>
 									<h1>{{i.name}}</h1>
+								</div>
 								</div>
 								{% elif "Charging" in i.status %}
-								<div class="col-6 device" style="padding-bottom:10%;  background-color: orange;">
+								<div class="col-6 device" style="border-radius: 25px; background-color: orange; border:3px solid rgb(255, 115, 0);">
+									<div class="device-inner" style="margin:auto;">
 									<a href="{% url 'device_stop' i.name %}">
-									<img src="/static/images/{{i.category}}.png" sytle="vertical-align:middle;"/>
+									<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
 									</a>
-									<h1>{{i.name}}</h1>
+									<h1>{{i.name}} </h1>
+									<h1>{{i.charging_finish_time}}에 끝날 예정입니다.</h1>
+									{% if i.time_prediction_day > 0 %}
+										<h1>{{i.time_prediction_day}}일 {{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초</h1>
+									{% elif i.time_prediction_hour > 0 %}
+										<h1>{{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초</h1>
+									{% elif i.time_prediction_min > 0 %}
+										<h1>{{i.time_prediction_min}}분 {{i.time_prediction_sec}}초</h1>
+									{% elif i.time_prediction_sec > 0 %}
+										<h1>{{i.time_prediction_sec}}초</h1>
+									{% endif %}
+								</div>
 								</div>
 								{% elif "Complete" in i.status %}
-								<div class="col-6 device" style="padding-bottom:10%;  background-color: rgb(130, 207, 13);">
-									<a href="{% url 'device_stop' i.name %}">
-									<img src="/static/images/{{i.category}}.png" sytle="vertical-align:middle;"/>
-									</a>
-									<h1>{{i.name}}</h1>
+								<div class="col-6 device" style="border-radius: 25px; background-color: rgb(130, 207, 13); border:3px solid green;">
+									<div class="device-inner" style="margin:auto;">
+										<a href="{% url 'device_stop' i.name %}">
+										<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
+										</a>
+										<h1>{{i.name}}</h1>
+									</div>
 								</div>
 								{% endif %}
 							{%endfor%}
 						{% endif %}
-						<div style="text-align:center; width:50%; height:50%; display:table; border:dashed 3px #cecece;">
-							<a href="{% url 'device_add' %}">
-							<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDQ0OCA0NDgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTQwOCAxODRoLTEzNmMtNC40MTc5NjkgMC04LTMuNTgyMDMxLTgtOHYtMTM2YzAtMjIuMDg5ODQ0LTE3LjkxMDE1Ni00MC00MC00MHMtNDAgMTcuOTEwMTU2LTQwIDQwdjEzNmMwIDQuNDE3OTY5LTMuNTgyMDMxIDgtOCA4aC0xMzZjLTIyLjA4OTg0NCAwLTQwIDE3LjkxMDE1Ni00MCA0MHMxNy45MTAxNTYgNDAgNDAgNDBoMTM2YzQuNDE3OTY5IDAgOCAzLjU4MjAzMSA4IDh2MTM2YzAgMjIuMDg5ODQ0IDE3LjkxMDE1NiA0MCA0MCA0MHM0MC0xNy45MTAxNTYgNDAtNDB2LTEzNmMwLTQuNDE3OTY5IDMuNTgyMDMxLTggOC04aDEzNmMyMi4wODk4NDQgMCA0MC0xNy45MTAxNTYgNDAtNDBzLTE3LjkxMDE1Ni00MC00MC00MHptMCAwIiBmaWxsPSIjZGNkY2RjIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg=="
-							style="width:50%; height:50%; margin:auto;"/></a>
+						<div class="col-6 device" style="border-radius: 25px; border:3px dashed #cecece;">
+							<div class="device-inner" style="margin:auto;">
+								<a href="{% url 'device_add' %}">
+								<img src="/static/images/plus.png"
+								sytle="vertical-align:middle;"/></a>
+							</div>
 						</div>
 						<!--
 						<div class="col-9 col-12-mobilep">
@@ -113,13 +133,23 @@
 		</div>
 
 		<!-- Scripts -->
-			<script src="static/js/jquery.min.js"></script>
-			<script src="static/js/jquery.dropotron.min.js"></script>
-			<script src="static/js/jquery.scrollex.min.js"></script>
-			<script src="static/js/browser.min.js"></script>
-			<script src="static/js/breakpoints.min.js"></script>
-			<script src="static/js/util.js"></script>
-			<script src="static/js/main.js"></script>
-
+			<script src="/static/js/jquery.min.js"></script>
+			<script src="/static/js/jquery.dropotron.min.js"></script>
+			<script src="/static/js/jquery.scrollex.min.js"></script>
+			<script src="/static/js/browser.min.js"></script>
+			<script src="/static/js/breakpoints.min.js"></script>
+			<script src="/static/js/util.js"></script>
+			<script src="/static/js/main.js"></script>
+			<script>
+			$('.box').each(function(){
+				var boxhight = 0;
+				$('.device', this).each(function(){
+					if($(this).height() > boxhight)
+					boxhight = $(this).height();
+				});
+				$('.device',this).height(boxhight);
+			});
+		</script>
 	</body>
 </html>
+
