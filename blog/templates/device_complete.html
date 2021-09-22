@@ -47,12 +47,12 @@
 			<!-- Main -->
 				<section id="main" class="container medium">
 					<header>
-						<h2>Your device-Stop</h2>
+						<h2>Charging Complete</h2>
 						<p>{{member.nickname}}님의 {{device.name}}</p>
                         
 					</header>
 					<div class="box">
-						<form action="{% url 'device_stop' device.name %}" method="post">
+						<form action="{% url 'device_complete' device.name %}" method="post">
 							{% csrf_token %}
 							<div class="row gtr-50 gtr-uniform">
                                 <div class="col-12">
@@ -60,7 +60,7 @@
 								</div>                 
 								<div class="col-12">
 									<ul class="actions special">
-										<li><input type="submit" name="Charging Stop" value="Charging Stop" /></li>
+										<li><input type="submit" name="Charging Finish" value="Charging Finish" /></li>
                                         <li><input type="submit" name="back" value="Back"/></li>
 									</ul>
 								</div>

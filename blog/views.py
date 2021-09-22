@@ -75,7 +75,7 @@ def device_start(request, device_name):
     user = request.user
     member=Member.objects.get(user=user)
     device=LithiumBattery.objects.get(member=member, name=device_name)
-    if (request.method == 'POST') and ("charging start" in request.POST):
+    if (request.method == 'POST') and ("Charging Start" in request.POST):
         device.start_battery = request.POST['start_battery']
         device.want_battery = request.POST['want_battery']
         predict_basis = device.loss * device.battery_capacity / device.charger_voltage / device.charger_current
@@ -103,7 +103,7 @@ def device_stop(request, device_name):
     user = request.user
     member = Member.objects.get(user=user)
     device = LithiumBattery.objects.get(member=member, name=device_name)
-    if (request.method == 'POST') and ("charging stop" in request.POST):
+    if (request.method == 'POST') and ("Charging Stop" in request.POST):
         now_battery = request.POST['now_battery']
         
         device.now_time = timezone.now()
@@ -121,20 +121,44 @@ def device_stop(request, device_name):
         return redirect('/device')
     return render(request, 'device_stop.html', {'member':member,'device':device})
 
+def device_complete(request, device_name):
+    user = request.user
+    member = Member.objects.get(user=user)
+    device = LithiumBattery.objects.get(member=member, name=device_name)
+    if (request.method == 'POST') and ("Charging Finish" in request.POST):
+        now_battery = request.POST['now_battery']
+        
+        device.now_time = timezone.now()
+        difference = device.now_time - device.charging_start_time
+
+        real_chargingtime = difference.seconds / 3600  #시간 단위
+        predict_basis = device.loss * device.battery_capacity / device.charger_voltage / device.charger_current
+        device.time_prediction_entire = (float(now_battery) - float(device.start_battery)) / float(100.0) * float(predict_basis)
+
+        if (float(now_battery)<=80):
+            device.loss = float(device.loss) * float(real_chargingtime) / float(device.time_prediction_entire)
+        device.status="None"
+        device.save()
+        return redirect('/device',{'member':member,'device':LithiumBattery.objects.filter(member=member)})
+    elif  (request.method == 'POST') and ("back" in request.POST):
+        return redirect('/device')
+    return render(request, 'device_complete.html', {'member':member,'device':device})
+
 def device(request):
     user=request.user
     member=Member.objects.get(user=user)
     device=LithiumBattery.objects.filter(member=member)
     if device:
         for i in device:
-            i.now_time = timezone.now()
-            difference = i.charging_finish_time - i.now_time
-            i.time_prediction_day = difference.days
-            i.time_prediction_hour = difference.seconds // 3600
-            i.time_prediction_min = (difference.seconds % 3600) // 60
-            i.time_prediction_sec = difference.seconds % 60
-            if i.time_prediction_day == -1:
-                i.status = "Complete"
+            if i.status=="Charging":
+                i.now_time = timezone.now()
+                difference = i.charging_finish_time - i.now_time
+                i.time_prediction_day = difference.days
+                i.time_prediction_hour = difference.seconds // 3600
+                i.time_prediction_min = (difference.seconds % 3600) // 60
+                i.time_prediction_sec = difference.seconds % 60
+                if i.time_prediction_day == -1:
+                    i.status = "Complete"
             i.save()
     return render(request, 'device.html', {'member':member, 'device':device, 'count':len(device)})
 
@@ -146,3 +170,5 @@ def device_edit(request, device_name):
         return render(request, 'device_start.html', {'member':member, 'device':device})
     elif device.status=="Charging":
         return render(request, 'device_stop.html', {'member':member, 'device':device})
+    elif device.status == "Complete":
+        return render(request, 'device_complete.html', {'member':member, 'device':device})

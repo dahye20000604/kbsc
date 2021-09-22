@@ -8,5 +8,6 @@ urlpatterns=[
     path('device/add/', views.device_add, name='device_add'),
     path('device/', views.device, name='device'),
     path('device/start/<str:device_name>', views.device_start, name='device_start'),
-    path('device/stop/<str:device_name>', views.device_stop, name='device_stop')
+    path('device/stop/<str:device_name>', views.device_stop, name='device_stop'),
+    path('device/complete/<str:device_name>', views.device_complete, name = 'device_complete')
 ]

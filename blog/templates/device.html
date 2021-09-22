@@ -8,7 +8,6 @@
 -->
 <style>
 	.device{text-align:center; display:table; vertical-align:middle; height:360px;}  
-	.device:after{display:table; height:100%; content:""; vertical-align:middle;}
 	.device-inner{display:table-cell; margin:auto; vertical-align: middle; max-width:100%; height:auto;}
 </style>
 <html>
@@ -16,7 +15,10 @@
 		<title>Device - Safety of Battery</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<!-- CSS only -->
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
 		<link rel="stylesheet" href="{% static 'css/main.css' %}" />
+		
 	</head>
 	<body class="is-preload">
 		<div id="page-wrapper">
@@ -55,46 +57,102 @@
 						<h2>{{member.nickname}}님의 기기</h2>
 						<p>총 {{count}}개의 기기를 가지고 있습니다.</p>
 					</header>
-
 					<div class="box row gtr-50 gtr-uniform">
 						<span class="image featured"><img src="../images/pic01.jpg" alt="" /></span>
+						<div class="row row-cols-2 row-cols-md-3 g-4">
+							{% if device %}
+							{% for i in device %}
+								{% if "None" in i.status %}
+									<div class="col">
+									<div class="card" style="border-radius: 25px; background-color: rgb(168, 168, 168); border:3px solid gray;">
+										<a href="{% url 'device_start' i.name %}">
+										<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..." style="padding: 10%;">
+										</a>
+										<div class="card-body">
+										<h5 class="card-title">{{i.name}}</h5>
+										</div>
+									</div>
+									</div>
+								{% elif "Charging" in i.status %}
+									<div class="col">
+									<div class="card" style="border-radius: 25px; background-color: orange; border:3px solid rgb(255, 115, 0);">
+										<a href="{% url 'device_stop' i.name %}">
+										<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..." style="padding: 10%;">
+										</a>
+										<div class="card-body">
+										<h5 class="card-title">{{i.name}}</h5>
+										{% if i.time_prediction_day > 0 %}
+										<p class="card-text">{{i.time_prediction_day}}일 {{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</p>
+										{% elif i.time_prediction_hour > 0 %}
+										<p class="card-text">{{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</p>
+										{% elif i.time_prediction_min > 0 %}
+										<p class="card-text">{{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</p>
+										{% elif i.time_prediction_sec > 0 %}
+										<p class="card-text">{{i.time_prediction_sec}}초 남았습니다.</p>
+										{% endif %}
+										</div>
+									</div>
+									</div>
+								{% elif "Complete" in i.status %}
+									<div class="col">
+									<div class="card" style="border-radius: 25px; background-color: rgb(130, 207, 13); border:3px solid green;">
+										<a href="{% url 'device_complete' i.name %}">
+										<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..." style="padding: 10%;">
+										</a>
+										<div class="card-body">
+										<h5 class="card-title">{{i.name}}</h5>
+										<p class="card-text">{{i.want_battery}}% 까지 충전이 완료되었습니다.</p>
+										</div>
+									</div>
+									</div>
+								{% endif %}
+							{%endfor%}
+							{% endif %}
+							<div class="col">
+								<div class="card" style="border-radius: 25px; border:3px dashed #cecece;">
+									<a href="{% url 'device_add' %}">
+									<img src="/static/images/plus.png" class="card-img-top" alt="..." style="padding: 10%;">
+									</a>
+								</div>
+							</div>
+						<!--
 						{% if device %}
 							{% for i in device %}
 								{% if "None" in i.status %}
 								<div class="col-6 device" style="border-radius: 25px; background-color: rgb(168, 168, 168); border:3px solid gray;">
 									<div class="device-inner" style="margin:auto;">
-									<a href="{% url 'device_start' i.name %}">
-									<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
-									</a>
-									<h1>{{i.name}}</h1>
-								</div>
+										<a href="{% url 'device_start' i.name %}">
+										<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
+										</a>
+										<h1>{{i.name}}</h1>
+									</div>
 								</div>
 								{% elif "Charging" in i.status %}
 								<div class="col-6 device" style="border-radius: 25px; background-color: orange; border:3px solid rgb(255, 115, 0);">
 									<div class="device-inner" style="margin:auto;">
-									<a href="{% url 'device_stop' i.name %}">
-									<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
-									</a>
-									<h1>{{i.name}} </h1>
-									<h1>{{i.charging_finish_time}}에 끝날 예정입니다.</h1>
-									{% if i.time_prediction_day > 0 %}
-										<h1>{{i.time_prediction_day}}일 {{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초</h1>
-									{% elif i.time_prediction_hour > 0 %}
-										<h1>{{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초</h1>
-									{% elif i.time_prediction_min > 0 %}
-										<h1>{{i.time_prediction_min}}분 {{i.time_prediction_sec}}초</h1>
-									{% elif i.time_prediction_sec > 0 %}
-										<h1>{{i.time_prediction_sec}}초</h1>
-									{% endif %}
-								</div>
+										<a href="{% url 'device_stop' i.name %}">
+										<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
+										</a>
+										<h1>{{i.name}} </h1>
+										{% if i.time_prediction_day > 0 %}
+											<h1>{{i.time_prediction_day}}일 {{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</h1>
+										{% elif i.time_prediction_hour > 0 %}
+											<h1>{{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</h1>
+										{% elif i.time_prediction_min > 0 %}
+											<h1>{{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</h1>
+										{% elif i.time_prediction_sec > 0 %}
+											<h1>{{i.time_prediction_sec}}초 남았습니다.</h1>
+										{% endif %}
+									</div>
 								</div>
 								{% elif "Complete" in i.status %}
 								<div class="col-6 device" style="border-radius: 25px; background-color: rgb(130, 207, 13); border:3px solid green;">
 									<div class="device-inner" style="margin:auto;">
-										<a href="{% url 'device_stop' i.name %}">
+										<a href="{% url 'device_complete' i.name %}">
 										<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
 										</a>
-										<h1>{{i.name}}</h1>
+										<h1>{{i.name}} </h1>
+										<h1>{{i.want_battery}}% 까지 충전이 완료되었습니다.</h1>
 									</div>
 								</div>
 								{% endif %}
@@ -107,6 +165,7 @@
 								sytle="vertical-align:middle;"/></a>
 							</div>
 						</div>
+					-->
 						<!--
 						<div class="col-9 col-12-mobilep">
 						<button class="actions special" type="button" href="{% url 'device_add' %}">
@@ -140,16 +199,16 @@
 			<script src="/static/js/breakpoints.min.js"></script>
 			<script src="/static/js/util.js"></script>
 			<script src="/static/js/main.js"></script>
-			<script>
-			$('.box').each(function(){
+			<!--<script>
+			$('.row').each(function(){
 				var boxhight = 0;
-				$('.device', this).each(function(){
+				$('.col', this).each(function(){
 					if($(this).height() > boxhight)
 					boxhight = $(this).height();
 				});
-				$('.device',this).height(boxhight);
+				$('.col',this).height(boxhight);
 			});
-		</script>
+		</script>-->
 	</body>
 </html>
 
