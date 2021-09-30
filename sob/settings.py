@@ -26,7 +26,8 @@ SECRET_KEY = '*^s_!=iq*xq@+3d(0k4ws^1xx_k)carus&(v-!8b9xm%hqavif'
 DEBUG = False
 
 ALLOWED_HOSTS = ["dahye.pythonanywhere.com",
-                "127.0.0.1"]
+                 "feelinggreen.pythonanywhere.com",
+                 "127.0.0.1"]
 
 
 # Application definition
