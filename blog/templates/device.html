@@ -7,198 +7,149 @@
 	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
 -->
 <style>
-	.device{text-align:center; display:table; vertical-align:middle; height:360px;}  
-	.device-inner{display:table-cell; margin:auto; vertical-align: middle; max-width:100%; height:auto;}
+	.device {
+		text-align: center;
+		display: table;
+		vertical-align: middle;
+		height: 360px;
+	}
+
+	.device-inner {
+		display: table-cell;
+		margin: auto;
+		vertical-align: middle;
+		max-width: 100%;
+		height: auto;
+	}
 </style>
 <html>
-	<head>
-		<title>Device - Safety of Battery</title>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-		<!-- CSS only -->
-		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
-		<link rel="stylesheet" href="{% static 'css/main.css' %}" />
-		
-	</head>
-	<body class="is-preload">
-		<div id="page-wrapper">
 
-			<!-- Header -->
-				<header id="header">
-					<h1><a href="{% url 'index' %}">Safety of Battery</a> by Team Name</h1>
-					<nav id="nav">
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li>
-								<a href="#" class="icon solid fa-angle-down">Layouts</a>
-								<ul>
-									<li><a href="generic.html">Generic</a></li>
-									<li><a href="contact.html">Contact</a></li>
-									<li><a href="elements.html">Elements</a></li>
-									<li>
-										<a href="#">Submenu</a>
-										<ul>
-											<li><a href="#">Option One</a></li>
-											<li><a href="#">Option Two</a></li>
-											<li><a href="#">Option Three</a></li>
-											<li><a href="#">Option Four</a></li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li><a href="#" class="button">Sign Up</a></li>
-						</ul>
-					</nav>
-				</header>
+<head>
+	<title>Device - Safety of Battery</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'css/main.css' %}" />
 
-			<!-- Main -->
-				<section id="main" class="container">
-					<header>
-						<h2>{{member.nickname}}님의 기기</h2>
-						<p>총 {{count}}개의 기기를 가지고 있습니다.</p>
-					</header>
-					<div class="box row gtr-50 gtr-uniform">
-						<div class="row row-cols-2 row-cols-md-3 g-4">
-							{% if device %}
-							{% for i in device %}
-								{% if "None" in i.status %}
-									<div class="col">
-									<div class="card" style="border-radius: 25px; background-color: rgb(168, 168, 168); border:3px solid gray;">
-										<a href="{% url 'device_start' i.name %}">
-										<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..." style="padding: 10%;">
-										</a>
-										<div class="card-body">
-										<h5 class="card-title">{{i.name}}</h5>
-										</div>
-									</div>
-									</div>
-								{% elif "Charging" in i.status %}
-									<div class="col">
-									<div class="card" style="border-radius: 25px; background-color: orange; border:3px solid rgb(255, 115, 0);">
-										<a href="{% url 'device_stop' i.name %}">
-										<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..." style="padding: 10%;">
-										</a>
-										<div class="card-body">
-										<h5 class="card-title">{{i.name}}</h5>
-										{% if i.time_prediction_day > 0 %}
-										<p class="card-text">{{i.time_prediction_day}}일 {{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</p>
-										{% elif i.time_prediction_hour > 0 %}
-										<p class="card-text">{{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</p>
-										{% elif i.time_prediction_min > 0 %}
-										<p class="card-text">{{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</p>
-										{% elif i.time_prediction_sec > 0 %}
-										<p class="card-text">{{i.time_prediction_sec}}초 남았습니다.</p>
-										{% endif %}
-										</div>
-									</div>
-									</div>
-								{% elif "Complete" in i.status %}
-									<div class="col">
-									<div class="card" style="border-radius: 25px; background-color: rgb(130, 207, 13); border:3px solid green;">
-										<a href="{% url 'device_complete' i.name %}">
-										<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..." style="padding: 10%;">
-										</a>
-										<div class="card-body">
-										<h5 class="card-title">{{i.name}}</h5>
-										<p class="card-text">{{i.want_battery}}% 까지 충전이 완료되었습니다.</p>
-										</div>
-									</div>
-									</div>
-								{% endif %}
-							{%endfor%}
-							{% endif %}
-							<div class="col">
-								<div class="card" style="border-radius: 25px; border:3px dashed #cecece;">
-									<a href="{% url 'device_add' %}">
-									<img src="/static/images/plus.png" class="card-img-top" alt="..." style="padding: 10%;">
-									</a>
-								</div>
-							</div>
-						<!--
-						{% if device %}
-							{% for i in device %}
-								{% if "None" in i.status %}
-								<div class="col-6 device" style="border-radius: 25px; background-color: rgb(168, 168, 168); border:3px solid gray;">
-									<div class="device-inner" style="margin:auto;">
-										<a href="{% url 'device_start' i.name %}">
-										<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
-										</a>
-										<h1>{{i.name}}</h1>
-									</div>
-								</div>
-								{% elif "Charging" in i.status %}
-								<div class="col-6 device" style="border-radius: 25px; background-color: orange; border:3px solid rgb(255, 115, 0);">
-									<div class="device-inner" style="margin:auto;">
-										<a href="{% url 'device_stop' i.name %}">
-										<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
-										</a>
-										<h1>{{i.name}} </h1>
-										{% if i.time_prediction_day > 0 %}
-											<h1>{{i.time_prediction_day}}일 {{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</h1>
-										{% elif i.time_prediction_hour > 0 %}
-											<h1>{{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</h1>
-										{% elif i.time_prediction_min > 0 %}
-											<h1>{{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</h1>
-										{% elif i.time_prediction_sec > 0 %}
-											<h1>{{i.time_prediction_sec}}초 남았습니다.</h1>
-										{% endif %}
-									</div>
-								</div>
-								{% elif "Complete" in i.status %}
-								<div class="col-6 device" style="border-radius: 25px; background-color: rgb(130, 207, 13); border:3px solid green;">
-									<div class="device-inner" style="margin:auto;">
-										<a href="{% url 'device_complete' i.name %}">
-										<img src="/static/images/{{i.category}}.png" alt="" sytle="vertical-align:middle;"/>
-										</a>
-										<h1>{{i.name}} </h1>
-										<h1>{{i.want_battery}}% 까지 충전이 완료되었습니다.</h1>
-									</div>
-								</div>
-								{% endif %}
-							{%endfor%}
-						{% endif %}
-						<div class="col-6 device" style="border-radius: 25px; border:3px dashed #cecece;">
-							<div class="device-inner" style="margin:auto;">
-								<a href="{% url 'device_add' %}">
-								<img src="/static/images/plus.png"
-								sytle="vertical-align:middle;"/></a>
+</head>
+
+<body class="is-preload">
+	<div id="page-wrapper">
+
+		<!-- Header -->
+		<header id="header">
+			<h1><a href="{% url 'index' %}">Safety of Battery</a> by Feeling Green</h1>
+			<nav id="nav">
+				<ul>
+					<li><a href="{% url 'index' %}" class = "button">Home</a></li>					
+				</ul>
+			</nav>
+		</header>
+
+		<!-- Main -->
+		<section id="main" class="container">
+			<header>
+				<h2>{{member.nickname}}님의 기기</h2>
+				<p>총 {{count}}개의 기기를 가지고 있습니다.</p>
+			</header>
+			<div class="box row gtr-50 gtr-uniform">
+				<div class="row row-cols-2 row-cols-md-3 g-4">
+					{% if device %}
+					{% for i in device %}
+					{% if "None" in i.status %}
+					<div class="col">
+						<div class="card"
+							style="border-radius: 25px; background-color: rgb(168, 168, 168); border:3px solid gray;">
+							<a href="{% url 'device_start' i.name %}">
+								<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..."
+									style="padding: 10%;">
+							</a>
+							<div class="card-body">
+								<h5 class="card-title" style="text-align: center;">{{i.name}}</h5>
+								{%if i.charger_current|less:i.rated_input_current %}
+								<h6 class="card-text" style="text-align: center; color: rgb(218, 19, 19);" >배터리 성능 저하 및 화재의 위험이 있습니다. 충전기 교체를 추천합니다.</h6>
+								{%endif%}
+								<h5 class="card-title" style="text-align:center;">
+								<a href="{% url 'device_edit' i.name %}" class = "button" style="height: 2em; line-height: 2em;">Edit</a>
+								<a href="{% url 'device_delete' i.name %}" class = "button" style="height: 2em; line-height: 2em;">Delete</a>
+								</h5>
 							</div>
 						</div>
-					-->
-						<!--
-						<div class="col-9 col-12-mobilep">
-						<button class="actions special" type="button" href="{% url 'device_add' %}">
-							<img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDQ0OCA0NDgiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTQwOCAxODRoLTEzNmMtNC40MTc5NjkgMC04LTMuNTgyMDMxLTgtOHYtMTM2YzAtMjIuMDg5ODQ0LTE3LjkxMDE1Ni00MC00MC00MHMtNDAgMTcuOTEwMTU2LTQwIDQwdjEzNmMwIDQuNDE3OTY5LTMuNTgyMDMxIDgtOCA4aC0xMzZjLTIyLjA4OTg0NCAwLTQwIDE3LjkxMDE1Ni00MCA0MHMxNy45MTAxNTYgNDAgNDAgNDBoMTM2YzQuNDE3OTY5IDAgOCAzLjU4MjAzMSA4IDh2MTM2YzAgMjIuMDg5ODQ0IDE3LjkxMDE1NiA0MCA0MCA0MHM0MC0xNy45MTAxNTYgNDAtNDB2LTEzNmMwLTQuNDE3OTY5IDMuNTgyMDMxLTggOC04aDEzNmMyMi4wODk4NDQgMCA0MC0xNy45MTAxNTYgNDAtNDBzLTE3LjkxMDE1Ni00MC00MC00MHptMCAwIiBmaWxsPSIjZGNkY2RjIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg==" /></button>
-						</div>-->
 					</div>
-				</section>
+					{% elif "Charging" in i.status %}
+					<div class="col">
+						<div class="card"
+							style="border-radius: 25px; background-color: orange; border:3px solid rgb(255, 115, 0);">
+							<a href="{% url 'device_stop' i.name %}">
+								<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..."
+									style="padding: 10%;">
+							</a>
+							<div class="card-body">
+								<h5 class="card-title" style="text-align: center;">{{i.name}}</h5>
+								{% if i.time_prediction_day > 0 %}
+								<h5 class="card-text" style="text-align: center;">{{i.time_prediction_day}}일
+									{{i.time_prediction_hour}}시간 {{i.time_prediction_min}}분 {{i.time_prediction_sec}}초
+									남았습니다.</h5>
+								{% elif i.time_prediction_hour > 0 %}
+								<h5 class="card-text" style="text-align: center;">{{i.time_prediction_hour}}시간
+									{{i.time_prediction_min}}분 {{i.time_prediction_sec}}초 남았습니다.</h5>
+								{% elif i.time_prediction_min > 0 %}
+								<h5 class="card-text" style="text-align: center;">{{i.time_prediction_min}}분
+									{{i.time_prediction_sec}}초 남았습니다.</h5>
+								{% elif i.time_prediction_sec > 0 %}
+								<h5 class="card-text" style="text-align: center;">{{i.time_prediction_sec}}초 남았습니다. </h5>
+								{% endif %}
+							</div>
+						</div>
+					</div>
+					{% elif "Complete" in i.status %}
+					<div class="col">
+						<div class="card"
+							style="border-radius: 25px; background-color: rgb(130, 207, 13); border:3px solid green;">
+							<a href="{% url 'device_complete' i.name %}">
+								<img src="/static/images/{{i.category}}.png" class="card-img-top" alt="..."
+									style="padding: 10%;">
+							</a>
+							<div class="card-body">
+								<h5 class="card-title" style="text-align: center;">{{i.name}}</h5>
+								<h5 class="card-text" style="text-align: center;">{{i.want_battery}}% 까지 충전이 완료되었습니다.</h5>
+							</div>
+						</div>
+					</div>
+					{% endif %}
+					{%endfor%}
+					{% endif %}
+					<div class="col">
+						<div class="card" style="border-radius: 25px; border:3px dashed #cecece;">
+							<a href="{% url 'device_add' %}">
+								<img src="/static/images/plus.png" class="card-img-top" alt="..." style="padding: 10%;">
+							</a>
+						</div>
+					</div>					
+				</div>
+		</section>
 
-			<!-- Footer -->
-				<footer id="footer">
-					<ul class="icons">
-						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-						<li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
-					</ul>
-					<ul class="copyright">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</footer>
+		<!-- Footer -->
+		<footer id="footer">
+			<ul class="copyright">
+				<li>&copy; Untitled. All rights reserved.</li>
+				<li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+			</ul>
+		</footer>
 
-		</div>
+	</div>
 
-		<!-- Scripts -->
-			<script src="/static/js/jquery.min.js"></script>
-			<script src="/static/js/jquery.dropotron.min.js"></script>
-			<script src="/static/js/jquery.scrollex.min.js"></script>
-			<script src="/static/js/browser.min.js"></script>
-			<script src="/static/js/breakpoints.min.js"></script>
-			<script src="/static/js/util.js"></script>
-			<script src="/static/js/main.js"></script>
-			<!--<script>
+	<!-- Scripts -->
+	<script src="/static/js/jquery.min.js"></script>
+	<script src="/static/js/jquery.dropotron.min.js"></script>
+	<script src="/static/js/jquery.scrollex.min.js"></script>
+	<script src="/static/js/browser.min.js"></script>
+	<script src="/static/js/breakpoints.min.js"></script>
+	<script src="/static/js/util.js"></script>
+	<script src="/static/js/main.js"></script>
+	<!--<script>
 			$('.row').each(function(){
 				var boxhight = 0;
 				$('.col', this).each(function(){
@@ -208,6 +159,6 @@
 				$('.col',this).height(boxhight);
 			});
 		</script>-->
-	</body>
-</html>
+</body>
 
+</html>

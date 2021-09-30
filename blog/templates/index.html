@@ -18,28 +18,11 @@
 
 			<!-- Header -->
 				<header id="header" class="alt">
-					<h1><a href="">Safety of Battery</a> by Team Name</h1>
+					<h1><a href="{% url 'index' %}">Safety of Battery</a> by Feeling Green</h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="{% url 'index' %}">Home</a></li>
-							<li>
-								<a href="#" class="icon solid fa-angle-down">Layouts</a>
-								<ul>
-									<li><a href="generic.html">Generic</a></li>
-									<li><a href="contact.html">Contact</a></li>
-									<li><a href="elements.html">Elements</a></li>
-									<li>
-										<a href="#">Submenu</a>
-										<ul>
-											<li><a href="#">Option One</a></li>
-											<li><a href="#">Option Two</a></li>
-											<li><a href="#">Option Three</a></li>
-											<li><a href="#">Option Four</a></li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li><a href="#" class="button">Sign Up</a></li>
+							<li><a href="{% url 'index' %}" class = "button">Home</a></li>
+							<li><a href="{% url 'signup' %}" class="button">Sign Up</a></li>
 						</ul>
 					</nav>
 				</header>
@@ -56,19 +39,20 @@
 							{% csrf_token %}
 							<div class="row gtr-50 gtr-uniform">
 								<div class="col-8 col-12-mobilep">
-									<input type="text" name="id" id="userid" placeholder="userid" />
+									<input type="text" name="id" id="userid" placeholder="아이디" />
 								</div>
 								<div class="col-8 col-12-mobilep">
-									<input type="password" name="password" id="pwd" placeholder="Password" />
+									<input type="password" name="password" id="pwd" placeholder="비밀번호" />
 								</div>
 								<div class="col-4 col-12-mobilep">
 									<input type="submit" class="button" value="로그인" />
 								</div>
 							</div>
 						</form>
-						{{error}}
+						{% if error %}
+							*{{error}}*
+						{% endif %}
 						<br><br><br>
-						<a href="/signup" class="button2">회원가입</a>
 					</section>
 					
 				</section>

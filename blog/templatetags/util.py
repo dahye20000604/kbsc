@@ -2,15 +2,13 @@ from django.template.defaulttags import register
 
 @register.filter
 
-def interval( value, arg ):
+def less( value, arg ):
   try:
 
     #interval=value-arg
     #return interval.seconds
-    interval = value-arg
-    a = "esdf %d" % interval.hours
-    return a
-
+    return value<arg
+    
   except: pass
 
   return ''

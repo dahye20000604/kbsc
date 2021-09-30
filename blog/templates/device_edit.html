@@ -30,63 +30,47 @@
       <!-- Main -->
       <section id="main" class="container medium">
          <header>
-            <h2>기기 추가</h2>
+            <h2>기기 변경</h2>
             <p>추가할 장치에 대한 정보를 입력해 주세요.<br>(*은 필수입니다)</p>
          </header>
          <div class="box">
-            <form action="{% url 'device_add' %}" method="post" autocomplete="on">
+            <form action="{% url 'device_edit' device.name %}" method="post" autocomplete="on">
                {% csrf_token %}
                <div class="row gtr-50 gtr-uniform">
                   <div class="col-12">
-                     <input type="text" maxlength='20' name="name" id="subject" value="{{name}}" placeholder="기기 별칭*"
-                        required />
-                  </div>
-                  <div class="col-12">
-                     <select name="category" value="{{category}}" id="category">
-                        <option value="">- 종류* -</option>
-                        <option value="phone">휴대폰</option>
-                        <option value="kickboard">킥보드</option>
-                        <option value="tablet">태블릿</option>
-                        <option value="laptop">노트북</option>
-                        <option value="earphone">블루투스 이어폰</option>
-                        <option value="etc">기타</option>
-                     </select>
+                     <input type="text" maxlength='20' name="name" id="subject" placeholder="기기 별칭* : {{device.name}}"/>
                   </div>
                   <div class="col-4 col-12-mobilep">
-                     <input type="number" step="0.01" name="battery_voltage" id="name" value="{{battery_voltage}}"
-                        placeholder="배터리 V (정격입력 V)" />
+                     <input type="number" step="0.01" name="battery_voltage" id="name" 
+                        placeholder="배터리 V ( 정격입력 V): {{device.battery_voltage}}" />
                   </div>
                   <div class="col-4 col-12-mobilep">
-                     <input type="number" step="0.01" name="battery_current" id="email" value="{{battery_current}}"
-                        placeholder="배터리 Ah" />
+                     <input type="number" step="0.01" name="battery_current" id="email" 
+                        placeholder="배터리 Ah: {{device.battery_current}}" />
                   </div>
                   <div class="col-4 col-12-mobilep">
-                     <input type="number" step="0.01" name="battery_capacity" id="email" value="{{battery_capacity}}"
-                        placeholder="배터리 용량 ( Wh )" />
+                     <input type="number" step="0.01" name="battery_capacity" id="email"
+                        placeholder="배터리 용량 ( Wh ): {{device.battery_capacity}}" />
                   </div>
-                  <div class="col-6 col-12-mobilep">
+                  <div class="col-12 col-12-mobilep">
                      <input type="number" step="0.01" name="rated_input_current" id="email"
-                        value="{{rated_input_current}}" placeholder="정격입력 A" />
-                  </div>
-                  <div class="col-6 col-12-mobilep">
-                     <input type="number" step="0.01" name="manual_prediction" id="email"
-                        value="{{manual_prediction}}" placeholder="충전 시간(h) (제품 설명서 참고)" />
+                        placeholder="정격입력 A: {{device.rated_input_current}}" />
                   </div>
                   <div class="col-4 col-12-mobilep">
-                     <input type="number" step="0.01" name="charger_voltage" id="email" value="{{charger_voltage}}"
-                        placeholder="충전기 OUTPUT V" />
+                     <input type="number" step="0.01" name="charger_voltage" id="email" 
+                        placeholder="충전기 OUTPUT V: {{device.charger_voltage}}" />
                   </div>
                   <div class="col-4 col-12-mobilep">
-                     <input type="number" step="0.01" name="charger_current" id="email" value="{{charger_current}}"
-                        placeholder="충전기 OUTPUT A" />
+                     <input type="number" step="0.01" name="charger_current" id="email" 
+                        placeholder="충전기 OUTPUT A: {{device.charger_current}}" />
                   </div>
                   <div class="col-4 col-12-mobilep">
-                     <input type="number" step="0.01" name="charger_watt" id="email" value="{{charger_watt}}"
-                        placeholder="충전기 OUTPUT W" />
+                     <input type="number" step="0.01" name="charger_watt" id="email" 
+                        placeholder="충전기 OUTPUT W: {{device.charger_watt}}" />
                   </div>
                   <div class="col-12">
-                     <b>구입년도* </b><br>
-                     <input type="date" name="purchase_period" id="subject" />
+                     <b>구입년도 </b><br>
+                     <input type="date" name="purchase_period" id="subject" value="{{device.purchase_period}}/>
                   </div>
                   <div class="col-12 col-12-mobilep" style="text-align: center;">
                      {% if error %}
@@ -106,7 +90,6 @@
 
       <!-- Footer -->
       <footer id="footer">
-
          <ul class="copyright">
             <li>&copy; Untitled. All rights reserved.</li>
             <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>

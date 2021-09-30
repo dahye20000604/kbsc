@@ -18,28 +18,10 @@
 
 			<!-- Header -->
 				<header id="header">
-					<h1><a href="index.html">Alpha</a> by HTML5 UP</h1>
+					<h1><a href="{% url 'index' %}">Safety of Battery</a> by Feeling Green</h1>
 					<nav id="nav">
 						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li>
-								<a href="#" class="icon solid fa-angle-down">Layouts</a>
-								<ul>
-									<li><a href="generic.html">Generic</a></li>
-									<li><a href="contact.html">Contact</a></li>
-									<li><a href="elements.html">Elements</a></li>
-									<li>
-										<a href="#">Submenu</a>
-										<ul>
-											<li><a href="#">Option One</a></li>
-											<li><a href="#">Option Two</a></li>
-											<li><a href="#">Option Three</a></li>
-											<li><a href="#">Option Four</a></li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li><a href="#" class="button">Sign Up</a></li>
+							<li><a href="{% url 'index' %}" class = "button">Home</a></li>
 						</ul>
 					</nav>
 				</header>
@@ -47,7 +29,7 @@
 			<!-- Main -->
 				<section id="main" class="container medium">
 					<header>
-						<h2>Your device - start</h2>
+						<h2>충전 시작</h2>
 						<p>{{member.nickname}}님의 {{device.name}}</p>
                         
 					</header>
@@ -56,10 +38,10 @@
 							{% csrf_token %}
 							<div class="row gtr-50 gtr-uniform">
                                 <div class="col-12">
-									<input type="number" step = "0.01" name="start_battery" id="start_battery" value="" placeholder="현재 battery (%)" />
+									<input type="number" step = "0.01" min = "0" max = "100" name="start_battery" id="start_battery" value="" placeholder="현재 battery (%)" />
 								</div>                 
                                 <div class="col-12">
-									<input type="number" step = "0.01" name="want_battery" id="want_battery" value="" placeholder="완료 battery (%)" />
+									<input type="number" step = "0.01" min = "0" max = "100" name="want_battery" id="want_battery" value="" placeholder="완료 battery (%)" />
 								</div>  
 								<div class="col-12">
 									<ul class="actions special">
@@ -74,14 +56,6 @@
 
 			<!-- Footer -->
 				<footer id="footer">
-					<ul class="icons">
-						<li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
-						<li><a href="#" class="icon brands fa-github"><span class="label">Github</span></a></li>
-						<li><a href="#" class="icon brands fa-dribbble"><span class="label">Dribbble</span></a></li>
-						<li><a href="#" class="icon brands fa-google-plus"><span class="label">Google+</span></a></li>
-					</ul>
 					<ul class="copyright">
 						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
 					</ul>

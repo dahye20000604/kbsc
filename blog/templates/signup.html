@@ -17,28 +17,11 @@
 
          <!-- Header -->
             <header id="header">
-                <h1><a href="">Safety of Battery</a> by Team Name</h1>
+                <h1><a href="{% url 'index' %}">Safety of Battery</a> by Feeling Green</h1>
                 <nav id="nav">
                     <ul>
-                        <li><a href="{% url 'index' %}">Home</a></li>
-                        <li>
-                            <a href="#" class="icon solid fa-angle-down">Layouts</a>
-                            <ul>
-                                <li><a href="generic.html">Generic</a></li>
-                                <li><a href="contact.html">Contact</a></li>
-                                <li><a href="elements.html">Elements</a></li>
-                                <li>
-                                    <a href="#">Submenu</a>
-                                    <ul>
-                                        <li><a href="#">Option One</a></li>
-                                        <li><a href="#">Option Two</a></li>
-                                        <li><a href="#">Option Three</a></li>
-                                        <li><a href="#">Option Four</a></li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-                        <li><a href="#" class="button">Sign Up</a></li>
+                        <li><a href="{% url 'index' %}" class="button">Home</a></li>
+                        <li><a href="{% url 'signup' %}" class="button">Sign Up</a></li>
                     </ul>
                 </nav>
             </header>
@@ -47,36 +30,28 @@
             <section id="main" class="container medium">
                <header>
                   <h2>Safety Of  Battery</h2>
-                  <p>Signup</p>
+                  <p>회원가입</p>
                </header>
                <div class="box">
                   <form method="post" action="{% url 'signup' %}">
-					      {% csrf_token %}
+                     {% csrf_token %}
                      <div class="row gtr-50 gtr-uniform">
-                        <div class="col-3 col-12-mobilep">
-                           <h2>닉네임</h2>
+                        <div class="col-12 col-12-mobilep">
+                           <input type="text" maxlength ='10' name="nickname" id="name" value="" placeholder="닉네임" />
                         </div>
-                        <div class="col-9 col-12-mobilep">
-                           <input type="text" name="nickname" id="name" value="" placeholder="닉네임" />
+                        <div class="col-12 col-12-mobilep">
+                           <input type="text" name="id" id="name" value="" placeholder="아이디" />
                         </div>
-                        <br>{{error}}<br>
-                        <div class="col-3 col-12-mobilep">
-                           <h2>ID</h2>
+                        <div class="col-12 col-12-mobilep">
+                           <input type="password" name="password" id="name" value="" placeholder="비밀번호" />
                         </div>
-                        <div class="col-9 col-12-mobilep">
-                           <input type="text" name="id" id="name" value="" placeholder="ID" />
+                        <div class="col-12 col-12-mobilep">
+                           <input type="password" name="passwordcheck" id="email" value="" placeholder="비밀번호 재확인" />
                         </div>
-                                <div class="col-3 col-12-mobilep">
-                           <h2>Password</h2>
-                        </div>
-                        <div class="col-9 col-12-mobilep">
-                           <input type="password" name="password" id="name" value="" placeholder="Password" />
-                        </div>
-                                <div class="col-4 col-12-mobilep">
-                           <h2>Password_Check</h2>
-                        </div>
-                        <div class="col-6 col-12-mobilep">
-                           <input type="password" name="passwordcheck" id="email" value="" placeholder="Password를 한 번 더 입력하세요" />
+                        <div class="col-12 col-12-mobilep" style ="text-align: center;">
+                           {% if error %}
+                              <p style="color:red;">*{{error}}* </p>
+                           {% endif %}
                         </div>
                         <div class="col-12">
                               <ul class="actions special">
